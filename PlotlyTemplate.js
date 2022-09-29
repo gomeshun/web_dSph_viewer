@@ -1,7 +1,7 @@
 const galactic_ra  = [266.40498829, 318.00438151,  86.40498829, 138.00438151, 266.40498829];
 const galactic_dec = [-28.93617776,  48.32963721,  28.93617776, -48.32963721, -28.93617776];
-const ecliptic_l = [ 96.33728337, 206.98913108, 276.33728337,  26.98913108,  96.33728337];
-const ecliptic_b = [-60.18855195, -11.42449097,  60.18855195,  11.42449097, -60.18855195];
+const equatorial_l = [ 96.33728337, 206.98913108, 276.33728337,  26.98913108,  96.33728337];
+const equatorial_b = [-60.18855195, -11.42449097,  60.18855195,  11.42449097, -60.18855195];
 
 var plotly_template = {
     type: 'scattergeo',
@@ -27,7 +27,7 @@ var plotly_template = {
     // ],
 };
 
-var ecliptic_line = {
+var equatorial_line = {
     type: 'scattergeo',
     mode: 'lines',
     name: "Celestial equator",
