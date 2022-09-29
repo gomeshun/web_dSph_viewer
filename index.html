@@ -132,8 +132,8 @@
                             plotly_template.lat = NearbyGalaxies.map( e => {return e.Dec_deg});
                             equatorial_line.lon = [0,90,180,270,360];
                             equatorial_line.lat = [0,0,0,0,0];
-                            equatorial_line.lon = galactic_ra;
-                            equatorial_line.lat = galactic_dec;
+                            galactic_line.lon = galactic_ra;
+                            galactic_line.lat = galactic_dec;
                             break;
                         case 'Galactic':
                             plotly_template.lon = NearbyGalaxies.map( e => {return e.l_deg});
