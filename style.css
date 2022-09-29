@@ -1,0 +1,58 @@
+td, th {
+    border: 1pt solid;
+}
+
+table {
+    margin-top: 20px;
+    border: 2pt solid;
+    border-collapse: collapse;
+}
+
+caption {
+    font-size: large;
+    font-weight: bold;
+    caption-side: top; /* 下 */
+    text-align: left; /* 左 */
+  }
+
+th{
+    background-color: lightyellow;
+}
+
+td.GalaxyName {
+    background-color: lavender;
+}
+
+tr:nth-child(even) {
+    background-color: lightgrey;
+}
+
+#myDiv {
+    height: 600px;
+}
+
+#jfactor_plot_figure {
+    height: 400px;
+}
+
+.plotly {
+    width: 95%;
+}
+
+.plotly_background {
+    border: 2pt solid;
+    border-color: skyblue;
+    width: 99%;
+}
+
+.page_contents {
+    /* width: 95%;
+    margin: 0 auto; */
+    border: 1pt solid;
+    border-color: lightgray;
+}
+
+body {
+    width: 95%;
+    margin: 0 auto;
+}

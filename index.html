@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web dSph Viewer</title>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
+    <!-- <script src="jsFITS/binaryajax.js"></script>
+    <script src="jsFITS/excanvas.js"></script>
+    <script src="jsFITS/fits.js"></script>
+    <script type="text/javascript">
+        var fits = new FITS();
+
+        document.getElementById()
+
+        fits.load("NearbyGalaxies_Jan2021_PUBLIC.fits");
+    </script> -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="NearbyGalaxies_records.js"></script>
+    <script src="PlotlyTemplate.js"></script>
+    <script src="Horigome2022.js"></script>
+    <script src="Horigome2022_ufd.js"></script>
+</head>
+
+<body>
+    <h1 id="heading">Web dSph Viewer</h1>
+    <div id="introduction" class="page_contents"> 
+        <h2>Introduction</h2>    
+        This is an online viewer of datasets of dwarf spheroidal galaxies (dSphs).
+        Bug reports, questions, comments and suggestion are wellcome.
+        
+        <h3>Updates</h3>
+        <ul>
+            <li><span class="update_data">2022-09-30</span> First release. J-factors from <a href="https://ui.adsabs.harvard.edu/abs/2022arXiv220710378H/abstract">Horigome+(2022)</a>, Plot and table of <a href='https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/community/nearby/'>McConnachie(2012)</a> datasets.</li>
+        </ul>
+    </div>
+    
+    <div id="jfactor_plot" class="page_contents">
+        <h2>J-factor plots</h2>
+        dSph J-factor values estimated in <a href="https://ui.adsabs.harvard.edu/abs/2022arXiv220710378H/abstract">Horigome+(2022)</a>.
+        <div class="plotly_background">
+            <div id="jfactor_plot_figure" class="plotly"></div>
+            <div id="jfactor_ufd_plot_figure" class="plotly"></div>
+        </div>
+    </div>
+
+    <div id="NearbyGalaxies" class="page_contents">
+        <h2>NearbyGalaxies</h2>
+        <div> This is an illustration of the dataset collected by <a href="http://adsabs.harvard.edu/abs/2012AJ....144....4M">McConnachie, A.W., 2012, AJ, 144, 4</a>. <br>
+            All datapoints are extracted by <a href=https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/files/vault/PANDAS/NearbyGals/NearbyGalaxies_Jan2021_PUBLIC.fits>NearbyGalaxies_Jan2021_PUBLIC.fits</a> distirbuted in his <a href='https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/community/nearby/'>website</a> .
+            See his <a href='https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/community/nearby/'>website</a> for more details.</div>
+        <div id="figure_maneger">
+            <div class="plotly_background">
+                <div id="myDiv" class="plotly"></div>
+            </div>
+            <div id="v-model-select" class="coordinate_selection">
+                Coordinate system:
+                <select v-on:change="plotFigure">
+                <option disabled value="">--choose coordinate--</option>
+                <option>Ecliptic</option>
+                <option>Galactic</option>
+                </select>
+                <!-- <span>Selected: {{ plottedFigure }}</span> -->
+            </div>    
+        </div>
+    </div>
+
+    <script>
+        var data = [
+            plotly_template,
+            ecliptic_line,
+            galactic_line
+        ];
+        Plotly.newPlot('myDiv', data, plotly_layout);
+    </script>
+
+    <script>
+        function plotJData(id,data_array){
+            console.log(data_array)
+            const j_data = [];
+            const j_data_type = Object.keys(data_array[0]).slice(1);  // remove the first element: "Name" 
+            
+            j_data_type.forEach((j_type,i_j_type) => {
+                j_data.push({
+                    x: [
+                        data_array.map( e => {return e["Name"]}),
+                        data_array.map( (e,i) => {return Array(i_j_type+1).fill(" ").join("")}),
+                    ],
+                    y: data_array.map( e => {console.log(e);  return e[j_type]["median"]}),
+                    mode: "markers",
+                    name: j_type,
+                    error_y: {
+                        type: 'data',
+                        symmetric: false,
+                        array: data_array.map( e => {return e[j_type]["+err"]}),
+                        arrayminus: data_array.map( e => {return e[j_type]["-err"]}),
+                    },
+                    type: 'scatter',
+                });
+            });
+            const j_layout = {
+                title: "dSph J-factors",
+                xaxis: {
+                    tickangle: 0,
+                    // tickson: "labels",
+                    // ticklen: 200,
+                    showdividers: true,
+                    // dividercolor: 'grey',
+                    // dividerwidth: 2
+                },
+            };
+            Plotly.newPlot(id, j_data, j_layout);
+        };
+        plotJData("jfactor_plot_figure",J_Horigome2022);
+        plotJData("jfactor_ufd_plot_figure",J_Horigome2022_UFD);
+    </script>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    selected: 'Ecliptic'
+                }
+            },
+            methods: {
+                plotFigure(event) {
+                    switch(event.target.value){
+                        case 'Ecliptic':
+                            plotly_template.lon = NearbyGalaxies.map( e => {return e.RA_deg});
+                            plotly_template.lat = NearbyGalaxies.map( e => {return e.Dec_deg});
+                            ecliptic_line.lon = [0,90,180,270,360];
+                            ecliptic_line.lat = [0,0,0,0,0];
+                            galactic_line.lon = galactic_ra;
+                            galactic_line.lat = galactic_dec;
+                            break;
+                        case 'Galactic':
+                            plotly_template.lon = NearbyGalaxies.map( e => {return e.l_deg});
+                            plotly_template.lat = NearbyGalaxies.map( e => {return e.b_deg});
+                            ecliptic_line.lon = ecliptic_l;
+                            ecliptic_line.lat = ecliptic_b;
+                            galactic_line.lon = [0,90,180,270,360];
+                            galactic_line.lat = [0,0,0,0,0];
+                            break;
+                        default:
+                            return "unexpected coordinated";
+                    }
+                    var data = [
+                        plotly_template,
+                        ecliptic_line,
+                        galactic_line
+                    ];
+                    Plotly.update('myDiv', data, plotly_layout);
+                    console.log("plot updated");
+                    console.log(data);
+                    return this.selected;
+                }
+            }
+            // computed: {
+            //     displayedLat() {
+            //         switch(this.selected){
+            //             case 'Ecliptic':
+            //                 return NearbyGalaxies.map( e => {return e.RA_deg});
+            //             case 'Galactic':
+            //                 return NearbyGalaxies.map( e => {return e.l_deg});
+            //         }
+            //     },
+            //     displayedLon() {
+            //         switch(this.selected){
+            //             case 'Ecliptic':
+            //                 return NearbyGalaxies.map( e => {return e.Dec_deg});
+            //             case 'Galactic':
+            //                 return NearbyGalaxies.map( e => {return e.b_deg});
+            //         }
+            //     }
+            // }
+        })
+        const vm = app.mount('#v-model-select')
+    </script>
+
+    <table>
+        <caption>NearbyGalaxies datatable</caption>
+        <thead id="table_head"></thead>
+        <tbody id="table_body"></tbody>
+    </table>
+
+    <script>
+        var head = document.getElementById("table_head");
+        var body = document.getElementById("table_body");
+        Object.keys(NearbyGalaxies[0]).forEach(element => {
+            var child = document.createElement("th");
+            child.innerText = element;
+            head.appendChild(child);
+        });
+        NearbyGalaxies.forEach(galdata => {
+            var row = document.createElement("tr");
+            Object.keys(galdata).forEach(key => {
+                var data = document.createElement("td");
+                data.classList.add(key);
+                data.innerText = galdata[key];
+                row.appendChild(data);
+            });
+            body.appendChild(row);
+        });
+        
+        // var n_galaxy = window.NearbyGalaxies.length;
+        // for (let i = 0; i < n_galaxy; i++) {
+        //     var row = document.createElement("tr");
+        //     Object.keys(window.NearbyGalaxies[i]).forEach(key => {
+        //         var data = document.createElement("td");
+        //         data.classList.add(key);
+        //         data.innerText = window.NearbyGalaxies[i][key];
+        //         row.appendChild(data);
+        //     });
+        //     body.appendChild(row);
+        // };
+    </script>
+
+</body>
+</html>
