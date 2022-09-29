@@ -66,7 +66,7 @@ const plotly_layout = {
     },
     geo: {
         coastlinewidth: 0,
-        projection: {type: "mollweide"},
+        projection: {type: "aitoff"},
         resolution: 50,
         lonaxis: {
             'range': [-180, 180],
