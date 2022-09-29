@@ -30,7 +30,7 @@ var plotly_template = {
 var ecliptic_line = {
     type: 'scattergeo',
     mode: 'lines',
-    name: "Ecliptic",
+    name: "Celestial equator",
     lon: [0,90,180,270,360],
     lat: [0,0,0,0,0],
     line: {
