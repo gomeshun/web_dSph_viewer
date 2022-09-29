@@ -70,7 +70,7 @@
     <script>
         var data = [
             plotly_template,
-            ecliptic_line,
+            equatorial_line,
             galactic_line
         ];
         Plotly.newPlot('myDiv', data, plotly_layout);
@@ -121,25 +121,25 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    selected: 'Ecliptic'
+                    selected: 'Equatorial'
                 }
             },
             methods: {
                 plotFigure(event) {
                     switch(event.target.value){
-                        case 'Ecliptic':
+                        case 'Equatorial':
                             plotly_template.lon = NearbyGalaxies.map( e => {return e.RA_deg});
                             plotly_template.lat = NearbyGalaxies.map( e => {return e.Dec_deg});
-                            ecliptic_line.lon = [0,90,180,270,360];
-                            ecliptic_line.lat = [0,0,0,0,0];
-                            galactic_line.lon = galactic_ra;
-                            galactic_line.lat = galactic_dec;
+                            equatorial_line.lon = [0,90,180,270,360];
+                            equatorial_line.lat = [0,0,0,0,0];
+                            equatorial_line.lon = galactic_ra;
+                            equatorial_line.lat = galactic_dec;
                             break;
                         case 'Galactic':
                             plotly_template.lon = NearbyGalaxies.map( e => {return e.l_deg});
                             plotly_template.lat = NearbyGalaxies.map( e => {return e.b_deg});
-                            ecliptic_line.lon = ecliptic_l;
-                            ecliptic_line.lat = ecliptic_b;
+                            equatorial_line.lon = equatorial_l;
+                            equatorial_line.lat = equatorial_b;
                             galactic_line.lon = [0,90,180,270,360];
                             galactic_line.lat = [0,0,0,0,0];
                             break;
@@ -148,7 +148,7 @@
                     }
                     var data = [
                         plotly_template,
-                        ecliptic_line,
+                        equatorial_line,
                         galactic_line
                     ];
                     Plotly.update('myDiv', data, plotly_layout);
@@ -160,7 +160,7 @@
             // computed: {
             //     displayedLat() {
             //         switch(this.selected){
-            //             case 'Ecliptic':
+            //             case 'Equatorial':
             //                 return NearbyGalaxies.map( e => {return e.RA_deg});
             //             case 'Galactic':
             //                 return NearbyGalaxies.map( e => {return e.l_deg});
@@ -168,7 +168,7 @@
             //     },
             //     displayedLon() {
             //         switch(this.selected){
-            //             case 'Ecliptic':
+            //             case 'Equatorial':
             //                 return NearbyGalaxies.map( e => {return e.Dec_deg});
             //             case 'Galactic':
             //                 return NearbyGalaxies.map( e => {return e.b_deg});
