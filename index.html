@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web dSph Viewer</title>
-    <link href="style.css" rel="stylesheet" type="text/css" media="all">
     <!-- <script src="jsFITS/binaryajax.js"></script>
     <script src="jsFITS/excanvas.js"></script>
     <script src="jsFITS/fits.js"></script>
@@ -18,10 +17,32 @@
     </script> -->
     <script src="https://unpkg.com/vue@next"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>    
+
+    <script>
+        $(document).ready( function () {
+            $('#nearbygalaxies_datatable').DataTable({
+                data: NearbyGalaxies,
+                columns: Object.keys(NearbyGalaxies[0]).map( e => { return {"data" : e} }),
+                scrollX: true,
+                scrollY: 600,
+            });
+        } );
+    </script>
+
+    <!-- <script>
+        $(document).ready( function () {
+            $('#nearbygalaxies_datatable').DataTable();
+        } );
+    </script> -->
+
     <script src="NearbyGalaxies_records.js"></script>
     <script src="PlotlyTemplate.js"></script>
     <script src="Horigome2022.js"></script>
     <script src="Horigome2022_ufd.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
 </head>
 
 <body>
@@ -31,7 +52,7 @@
         This is an online viewer of datasets of dwarf spheroidal galaxies (dSphs).
         Bug reports, questions, comments and suggestion are wellcome.
         
-        <h3>Updates</h3>
+        <h3 id="updates">Updates</h3>
         <ul>
             <li><span class="update_data">2022-09-30</span> First release. J-factors from <a href="https://ui.adsabs.harvard.edu/abs/2022arXiv220710378H/abstract">Horigome+(2022)</a>, Plot and table of <a href='https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/community/nearby/'>McConnachie(2012)</a> datasets.</li>
         </ul>
@@ -78,7 +99,6 @@
 
     <script>
         function plotJData(id,data_array){
-            console.log(data_array)
             const j_data = [];
             const j_data_type = Object.keys(data_array[0]).slice(1);  // remove the first element: "Name" 
             
@@ -88,7 +108,7 @@
                         data_array.map( e => {return e["Name"]}),
                         data_array.map( (e,i) => {return Array(i_j_type+1).fill(" ").join("")}),
                     ],
-                    y: data_array.map( e => {console.log(e);  return e[j_type]["median"]}),
+                    y: data_array.map( e => {return e[j_type]["median"]}),
                     mode: "markers",
                     name: j_type,
                     error_y: {
@@ -179,42 +199,90 @@
         const vm = app.mount('#v-model-select')
     </script>
 
-    <table>
-        <caption>NearbyGalaxies datatable</caption>
-        <thead id="table_head"></thead>
-        <tbody id="table_body"></tbody>
-    </table>
+    <div class="page_contents">
+        <table id="nearbygalaxies_datatable" class="table table-bordered">
+            <caption>NearbyGalaxies datatable</caption>
+            <!-- <thead id="table_head"></thead> -->
+            <thead id="table_head">
+                <tr style="text-align: right;">
+                    <!-- <th>ID</th> -->
+                    <th>GalaxyName</th>
+                    <th>RA</th>
+                    <th>Dec</th>
+                    <th>EB-V</th>
+                    <th>dmod</th>
+                    <th>dmod+</th>
+                    <th>dmod-</th>
+                    <th>vh</th>
+                    <th>vh+</th>
+                    <th>vh-</th>
+                    <th>Vmag</th>
+                    <th>Vmag+</th>
+                    <th>Vmag-</th>
+                    <th>PA</th>
+                    <th>PA+</th>
+                    <th>PA-</th>
+                    <th>e=1-b/a</th>
+                    <th>e+</th>
+                    <th>e-</th>
+                    <th>muVo</th>
+                    <th>muVo+</th>
+                    <th>muVo-</th>
+                    <th>rh</th>
+                    <th>rh+</th>
+                    <th>rh-</th>
+                    <th>sigma_s</th>
+                    <th>sigma_s+</th>
+                    <th>sigma_s-</th>
+                    <th>vrot_s</th>
+                    <th>vrot_s+</th>
+                    <th>vrot_s-</th>
+                    <th>MHI</th>
+                    <th>sigma_g</th>
+                    <th>sigma_g+</th>
+                    <th>sigma_g-</th>
+                    <th>vrot_g</th>
+                    <th>vrot_g+</th>
+                    <th>vrot_g-</th>
+                    <th>[Fe/H]</th>
+                    <th>feh+</th>
+                    <th>feh-</th>
+                    <th>F</th>
+                    <th>pmra</th>
+                    <th>epmra+</th>
+                    <th>epmra-</th>
+                    <th>pmdec</th>
+                    <th>epmdec+</th>
+                    <th>epmdec-</th>
+                    <th>References</th>
+                    <th>RA_deg</th>
+                    <th>Dec_deg</th>
+                    <th>l_deg</th>
+                    <th>b_deg</th>
+                </tr>
+            </thead>
+            <tbody id="table_body"></tbody>
+        </table>
+    </div>
 
     <script>
-        var head = document.getElementById("table_head");
-        var body = document.getElementById("table_body");
-        Object.keys(NearbyGalaxies[0]).forEach(element => {
-            var child = document.createElement("th");
-            child.innerText = element;
-            head.appendChild(child);
-        });
-        NearbyGalaxies.forEach(galdata => {
-            var row = document.createElement("tr");
-            Object.keys(galdata).forEach(key => {
-                var data = document.createElement("td");
-                data.classList.add(key);
-                data.innerText = galdata[key];
-                row.appendChild(data);
-            });
-            body.appendChild(row);
-        });
-        
-        // var n_galaxy = window.NearbyGalaxies.length;
-        // for (let i = 0; i < n_galaxy; i++) {
+        // var head = document.getElementById("table_head");
+        // // var body = document.getElementById("table_body");
+        // Object.keys(NearbyGalaxies[0]).forEach(element => {
+        //     var child = document.createElement("th");
+        //     child.innerText = element;
+        //     head.appendChild(child);
+        // });
+        // NearbyGalaxies.forEach(galdata => {
         //     var row = document.createElement("tr");
-        //     Object.keys(window.NearbyGalaxies[i]).forEach(key => {
+        //     Object.keys(galdata).forEach(key => {
         //         var data = document.createElement("td");
         //         data.classList.add(key);
-        //         data.innerText = window.NearbyGalaxies[i][key];
+        //         data.innerText = galdata[key];
         //         row.appendChild(data);
         //     });
         //     body.appendChild(row);
-        // };
+        // });
     </script>
 
 </body>

@@ -11,8 +11,8 @@ table {
 caption {
     font-size: large;
     font-weight: bold;
-    caption-side: top; /* 下 */
-    text-align: left; /* 左 */
+    caption-side: top;
+    text-align: left;
   }
 
 th{
@@ -23,9 +23,9 @@ td.GalaxyName {
     background-color: lavender;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
     background-color: lightgrey;
-}
+} */
 
 #myDiv {
     height: 600px;
