@@ -29,13 +29,17 @@ var plotly_template = {
 
 var equatorial_line = {
     type: 'scattergeo',
-    mode: 'lines',
+    mode: 'lines+markers',
     name: "Celestial equator",
     lon: [0,90,180,270,360],
     lat: [0,0,0,0,0],
+    text: ["vernal equinox","","autumnal equinox","","vernal equinox"],
     line: {
         width: 1,
         dash: 'dashdot'
+    },
+    marker: {
+        size: [0,0,4,0,8]
     }
 };
 
