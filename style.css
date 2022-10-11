@@ -31,11 +31,17 @@ td.GalaxyName {
     height: 600px;
 }
 
-#jfactor_plot_figure {
-    height: 400px;
+#jfactor_plot {
+    width: 100%;
+    overflow: auto;
+}
+
+#jfactor_ufd_plot_figure {
+    /* width: 5000px; */
 }
 
 .plotly {
+    height: 400px;
     width: 95%;
 }
 
@@ -43,6 +49,12 @@ td.GalaxyName {
     border: 2pt solid;
     border-color: skyblue;
     width: 99%;
+    overflow: auto;
+}
+
+.large_plotly_containor {
+    width: 100%;
+    overflow: auto;
 }
 
 .page_contents {

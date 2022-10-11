@@ -62,8 +62,12 @@
         <h2>J-factor plots</h2>
         dSph J-factor values estimated in <a href="https://ui.adsabs.harvard.edu/abs/2022arXiv220710378H/abstract">Horigome+(2022)</a>.
         <div class="plotly_background">
-            <div id="jfactor_plot_figure" class="plotly"></div>
-            <div id="jfactor_ufd_plot_figure" class="plotly"></div>
+            <div class="large_plotly_containor">
+                <div id="jfactor_plot_figure" class="plotly"></div>
+            </div>
+            <div class="large_plotly_containor">
+                <div id="jfactor_ufd_plot_figure" class="plotly"></div>
+            </div>
         </div>
     </div>
 
@@ -106,7 +110,7 @@
                 j_data.push({
                     x: [
                         data_array.map( e => {return e["Name"]}),
-                        data_array.map( (e,i) => {return Array(i_j_type+1).fill(" ").join("")}),
+                        data_array.map( (e,i) => {return Array(i_j_type+1).fill("\u200B").join("")}),
                     ],
                     y: data_array.map( e => {return e[j_type]["median"]}),
                     mode: "markers",
