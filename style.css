@@ -1,9 +1,30 @@
+body {
+    background-color: aliceblue;
+    width: 100%;
+    margin: 0 auto;
+}
+
+header {
+    width: 95%;
+    margin: 2.5%;
+}
+
+section {
+    /* width: 95%;
+    margin: 0 auto; */
+    background-color: white;
+    width: 95%;
+    margin: 2.5%;
+    border: 1pt solid;
+    border-color: lightgray;
+}
+
 td, th {
     border: 1pt solid;
 }
 
 table {
-    margin-top: 20px;
+    margin: 20px;
     border: 2pt solid;
     border-collapse: collapse;
 }
@@ -32,7 +53,7 @@ td.GalaxyName {
 }
 
 #jfactor_plot {
-    width: 100%;
+    /* width: 100%; */
     overflow: auto;
 }
 
@@ -57,14 +78,3 @@ td.GalaxyName {
     overflow: auto;
 }
 
-section {
-    /* width: 95%;
-    margin: 0 auto; */
-    border: 1pt solid;
-    border-color: lightgray;
-}
-
-body {
-    width: 95%;
-    margin: 0 auto;
-}
