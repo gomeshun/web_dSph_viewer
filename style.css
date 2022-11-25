@@ -57,7 +57,7 @@ td.GalaxyName {
     overflow: auto;
 }
 
-.page_contents {
+section {
     /* width: 95%;
     margin: 0 auto; */
     border: 1pt solid;

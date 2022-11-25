@@ -46,8 +46,11 @@
 </head>
 
 <body>
-    <h1 id="heading">Web dSph Viewer</h1>
-    <div id="introduction" class="page_contents"> 
+    <header>
+        <h1 id="heading">Web dSph Viewer</h1>
+    </header>
+
+    <section id="introduction" class="page_contents"> 
         <h2>Introduction</h2>    
         This is an online viewer of datasets of dwarf spheroidal galaxies (dSphs).
         Bug reports, questions, comments and suggestion are wellcome.
@@ -56,9 +59,9 @@
         <ul>
             <li><span class="update_data">2022-09-30</span> First release. J-factors from <a href="https://ui.adsabs.harvard.edu/abs/2022arXiv220710378H/abstract">Horigome+(2022)</a>, Plot and table of <a href='https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/community/nearby/'>McConnachie(2012)</a> datasets.</li>
         </ul>
-    </div>
+    </section>
     
-    <div id="jfactor_plot" class="page_contents">
+    <section id="jfactor_plot">
         <h2>J-factor plots</h2>
         dSph J-factor values estimated in <a href="https://ui.adsabs.harvard.edu/abs/2022arXiv220710378H/abstract">Horigome+(2022)</a>.
         <div class="plotly_background">
@@ -69,9 +72,9 @@
                 <div id="jfactor_ufd_plot_figure" class="plotly"></div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="NearbyGalaxies" class="page_contents">
+    <section id="NearbyGalaxies">
         <h2>NearbyGalaxies</h2>
         <div> This is an illustration of the dataset collected by <a href="http://adsabs.harvard.edu/abs/2012AJ....144....4M">McConnachie, A.W., 2012, AJ, 144, 4</a>. <br>
             All datapoints are extracted from <a href=https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/files/vault/PANDAS/NearbyGals/NearbyGalaxies_Jan2021_PUBLIC.fits>NearbyGalaxies_Jan2021_PUBLIC.fits</a> distirbuted in his <a href='https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/community/nearby/'>website</a> .
@@ -90,7 +93,7 @@
                 <!-- <span>Selected: {{ plottedFigure }}</span> -->
             </div>    
         </div>
-    </div>
+    </section>
 
     <script>
         var data = [
@@ -203,7 +206,7 @@
         const vm = app.mount('#v-model-select')
     </script>
 
-    <div class="page_contents">
+    <section>
         <table id="nearbygalaxies_datatable" class="table table-bordered">
             <caption>NearbyGalaxies datatable</caption>
             <!-- <thead id="table_head"></thead> -->
@@ -267,7 +270,7 @@
             </thead>
             <tbody id="table_body"></tbody>
         </table>
-    </div>
+    </section>
 
     <script>
         // var head = document.getElementById("table_head");
